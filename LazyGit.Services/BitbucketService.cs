@@ -41,7 +41,6 @@ namespace LazyGit.Services
 		#region Consts
 
 		private const string _open = "OPEN";
-		private const string _merged = "MERGED";
 		private const string _release = "Release";
 		private const string _baseUrl = "https://api.bitbucket.org/2.0/";
 
@@ -111,7 +110,7 @@ namespace LazyGit.Services
 					}
 
 					var pullRequestDetails = branchPullRequest.First();
-					if (pullRequestDetails.state == _merged)
+					if (pullRequestDetails.state != _open)
 						continue;
 
 					var pullRequestId = pullRequestDetails.id ?? 0;

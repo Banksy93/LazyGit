@@ -1,4 +1,4 @@
-﻿using System.IO;
+﻿using System;
 using LazyGit.Common.Pocos;
 using LazyGit.Configuration.Interfaces;
 using LazyGit.Logic;
@@ -31,7 +31,7 @@ namespace LazyGit.Configuration
 		public IConfigurationBuilder GetConfigurationBuilder()
 		{
 			return new ConfigurationBuilder()
-				.SetBasePath(Directory.GetCurrentDirectory())
+				.SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
 				.AddJsonFile("appsettings.json");
 		}
 

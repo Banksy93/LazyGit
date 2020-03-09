@@ -1,4 +1,6 @@
-﻿namespace LazyGit.Common.Pocos
+﻿using System.Collections.Generic;
+
+namespace LazyGit.Common.Pocos
 {
 	public class JiraTransitionRequest
 	{
@@ -8,7 +10,7 @@
 
 	public class Update
 	{
-		public Comment comment { get; set; }
+		public IEnumerable<Comment> comment { get; set; }
 	}
 
 	public class Comment

@@ -95,8 +95,11 @@ namespace LazyGit.Services
 				};
 
 				var restRequest = new RestRequest($"2/issue/{issueKey}/transitions?expand=transitions.fields", Method.POST);
+
+				var updateRequest = BuildTransitionRequest(_transitionId, _comment);
+
 				restRequest.AddHeader("Accept", "application/json");
-				restRequest.AddJsonBody(BuildTransitionRequest(_transitionId, _comment));
+				restRequest.AddJsonBody(updateRequest);
 
 				var response = await client.ExecuteTaskAsync(restRequest);
 
@@ -139,11 +142,13 @@ namespace LazyGit.Services
 			{
 				update = new Update
 				{
-					comment = new Comment
+					comment = new List<Comment>
 					{
-						add = new CommentContent
-						{
-							body = comment
+						new Comment{
+							add = new CommentContent
+							{
+								body = comment
+							}
 						}
 					}
 				},

@@ -25,6 +25,7 @@ namespace LazyGit.Services
 		private readonly string _clientId;
 		private readonly string _secret;
 		private readonly string _pullRequestUrl;
+		private readonly bool _checkTargetBranch;
 
 		// Jira
 		private readonly string _fixVersion;
@@ -56,6 +57,7 @@ namespace LazyGit.Services
 			_clientId = bitbucketConfig.Value.ClientId;
 			_secret = bitbucketConfig.Value.Secret;
 			_pullRequestUrl = bitbucketConfig.Value.PullRequestUrl;
+			_checkTargetBranch = bitbucketConfig.Value.CheckTargetBranch;
 
 			_fixVersion = jiraConfig.Value.FixVersion;
 
@@ -117,7 +119,7 @@ namespace LazyGit.Services
 
 					// If the target branch for the PR doesn't match the fix version, attempt to re-target it
 					var targetBranch = pullRequestDetails.destination.branch.name;
-					if (!targetBranch.Contains(_fixVersion))
+					if (_checkTargetBranch && !targetBranch.Contains(_fixVersion))
 					{
 						bool updateSuccess;
 

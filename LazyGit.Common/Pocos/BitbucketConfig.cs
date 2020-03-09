@@ -7,5 +7,6 @@
 		public string Secret { get; set; }
 		public string ClientId { get; set; }
 		public string PullRequestUrl { get; set; }
+		public bool CheckTargetBranch { get; set; }
 	}
 }

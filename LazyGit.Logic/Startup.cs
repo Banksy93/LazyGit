@@ -46,7 +46,7 @@ namespace LazyGit.Logic
 				var rebaseResult = _lazyGitLogic.RebaseTicket(ticket);
 
 				ticket.RebaseStatus = rebaseResult.Status;
-				ticket.JiraKey = _baseTicketUrl + ticket.JiraKey;
+				ticket.JiraUrl = _baseTicketUrl + ticket.JiraKey;
 
 				if (!rebaseResult.RebaseSuccess)
 					continue;

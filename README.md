@@ -45,6 +45,7 @@ For now, credentials and other configurations are set in *appsettings.json* and 
 "Secret": "",
 "ClientId": "",
 "PullRequestUrl": "https://bitbucket.org/user/repoSlug/pull-requests/"
+"CheckTargetBranch": Boolean whether to do a check on the target branch to see if it contains the fix version, will attempt to update the target branch if this is set to true and the target branch doesn't contain the fix version 
 ```
 
 * Git Configuration

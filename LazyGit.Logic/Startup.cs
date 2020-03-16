@@ -37,11 +37,14 @@ namespace LazyGit.Logic
 				return;
 			}
 
-			foreach (var ticket in ticketList.Where(t => t.PullRequestId != 0))
+			foreach (var ticket in ticketList)
 			{
 				ticket.Summary = jiraResponse.Issues
 					.First(jt => jt.Key == ticket.JiraKey).Fields.Summary
 					 ?? string.Empty;
+
+				if (ticket.PullRequestId == 0)
+					continue;
 
 				var rebaseResult = _lazyGitLogic.RebaseTicket(ticket);
 

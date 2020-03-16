@@ -20,5 +20,11 @@ namespace LazyGit.Common.Pocos
 		/// </summary>
 		public string CustomField_11100 { get; set; }
 		public string Summary { get; set; }
+		public IssueType IssueType { get; set; }
+	}
+
+	public class IssueType
+	{
+		public bool SubTask { get; set; }
 	}
 }

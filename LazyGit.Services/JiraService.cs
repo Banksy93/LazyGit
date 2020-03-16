@@ -73,6 +73,9 @@ namespace LazyGit.Services
 
 				var deserializedResult = JsonConvert.DeserializeObject<JiraIssueResponse>(response.Content);
 
+				// Filtering out sub-tasks as they won't have their own branch
+				deserializedResult.Issues = deserializedResult.Issues.Where(i => !i.Fields.IssueType.SubTask);
+
 				Log.Debug("Successfully retrieved: {IssueCount} issues set to Ready to Merge.",
 						deserializedResult.Issues.Count());
 

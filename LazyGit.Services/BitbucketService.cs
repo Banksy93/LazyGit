@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using LazyGit.Common.Enums;
 using LazyGit.Common.Pocos;
 using LazyGit.Services.Interfaces;
 using Microsoft.Extensions.Options;
@@ -29,6 +30,7 @@ namespace LazyGit.Services
 
 		// Jira
 		private readonly string _fixVersion;
+		private readonly string _baseJiraUrl;
 
 		// Git
 		private readonly string _gitUser;
@@ -60,6 +62,7 @@ namespace LazyGit.Services
 			_checkTargetBranch = bitbucketConfig.Value.CheckTargetBranch;
 
 			_fixVersion = jiraConfig.Value.FixVersion;
+			_baseJiraUrl = jiraConfig.Value.TicketUrl;
 
 			_gitUser = gitConfig.Value.Username;
 			_gitPassword = gitConfig.Value.Password;
@@ -93,6 +96,13 @@ namespace LazyGit.Services
 					if (issueBranch == null)
 					{
 						branchesNotFound.Add(issueKey);
+						ticketList.Add(new TicketInformation
+						{
+							JiraKey = issueKey,
+							RebaseStatus = RebaseStatus.FailedToFindSourceBranch,
+							JiraUrl = _baseJiraUrl + issueKey
+						});
+
 						continue;
 					}
 

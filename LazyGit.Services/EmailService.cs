@@ -158,13 +158,12 @@ namespace LazyGit.Services
 		/// <returns></returns>
 		private static string GenerateReportTemplate(IList<TicketInformation> tickets)
 		{
-
 			var mergedTickets = tickets.Where(t => t.RebaseStatus == RebaseStatus.Success)
 				.ToList();
 			var conflictTickets = tickets.Where(t => t.RebaseStatus == RebaseStatus.Conflicts)
 				.ToList();
-			var otherTickets = tickets.Where(t =>
-				t.RebaseStatus != RebaseStatus.Success && t.RebaseStatus != RebaseStatus.Conflicts)
+			var branchesNotFound = tickets.Where(t =>
+					t.RebaseStatus == RebaseStatus.FailedToFindSourceBranch)
 				.ToList();
 
 			var sb = new StringBuilder();
@@ -203,16 +202,14 @@ namespace LazyGit.Services
 				sb.AppendLine("No tickets have merge conflicts.");
 			}
 
-			if (otherTickets.Any())
+			if (branchesNotFound.Any())
 			{
-				sb.AppendLine("<h2>Other issues</h2>");
+				sb.AppendLine("<h2>Branch not found for the following tickets</h2>");
 				sb.AppendLine("<ul>");
 
-				foreach (var otherTicket in otherTickets)
+				foreach (var ticket in branchesNotFound)
 				{
-					var reason = GetFailureReason(otherTicket.RebaseStatus);
-
-					sb.AppendLine($"<li><a href=\"{otherTicket.JiraUrl}\">{otherTicket.JiraKey}</a> - {otherTicket.Summary} - {reason} - Author: {otherTicket.Author.Name}</li>");
+					sb.AppendLine($"<li><a href=\"{ticket.JiraUrl}\">{ticket.JiraKey}</a> - {ticket.Summary}</li>");
 				}
 
 				sb.AppendLine("</ul>");
